@@ -18,10 +18,15 @@ const AnecdoteItem = ({ anecdote }) => {
 }
 
 export const AnecdoteList = () => {
-  const anecdotes = useSelector(state => state).sort(({ votes: a }, { votes: b }) => b-a)
+  const anecdotes = useSelector(state => state.anecdotes).sort(({ votes: a }, { votes: b }) => b-a)
+  const currentFilter = useSelector(state => state.filter).toLowerCase()
+  const filteredAnecdotes = anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(currentFilter))
   return (
     <>
-      {anecdotes.map(anecdote => <AnecdoteItem key={anecdote.id} anecdote={anecdote} />)}
+      {
+        filteredAnecdotes
+          .map(anecdote => <AnecdoteItem key={anecdote.id} anecdote={anecdote} />)
+      }
     </>
   )
 }
